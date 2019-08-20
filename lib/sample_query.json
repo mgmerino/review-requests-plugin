@@ -1,0 +1,30 @@
+{
+  search(query: "org:jobandtalent is:pr is:open review-requested:mgmerino", type: ISSUE, last: 10) {
+    issueCount
+    edges {
+      node {
+        ... on PullRequest {
+          repository {
+            name
+          }
+          author {
+            login
+          }
+          reviews{
+            totalCount
+          }
+          reviewRequests{
+            totalCount
+          }
+          comments{
+            totalCount
+          }
+          createdAt
+          number
+          url
+          title
+        }
+      }
+    }
+  }
+}
