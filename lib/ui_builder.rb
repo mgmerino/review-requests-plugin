@@ -10,51 +10,23 @@ class UIBuilder
                            :comments
                           )
 
-  def initialize(data, stats = false)
-      @data = data
+  def initialize(data, blacklisted_prs, stats = false)
+      @blacklisted_prs = blacklisted_prs
+      @nodes = data["data"]["search"]["edges"].reject { |edge| @blacklisted_prs.include? edge["node"]["number"] }
       @stats = stats
   end
 
   def do_render()
     render_badge
     render_header
-    render_list_reviews
-  end
-
-  private
-  def get_edges
-    @data["data"]["search"]["edges"]
-  end
-
-  def get_issue_count
-    @data["data"]["search"]["issueCount"]
-  end
-
-  def build_pull_requests_list
-    get_edges().map do |edge|
-      PullRequest.new(edge["node"]["repository"]["name"],
-                      edge["node"]["author"]["login"],
-                      edge["node"]["createdAt"],
-                      edge["node"]["number"],
-                      edge["node"]["url"],
-                      edge["node"]["title"],
-                      edge["node"]["reviewRequests"]["totalCount"],
-                      edge["node"]["reviews"]["totalCount"],
-                      edge["node"]["comments"]["totalCount"]
-                     )
+    if @nodes.nil?
+      render_empty_state 
+    else
+      render_list_reviews
     end
   end
 
-  def render_badge
-    badge = get_issue_count == 0 ? "📭" : "📬"
-    puts "#{badge} #{get_issue_count}"
-    puts "---"
-  end
-
-  def render_header
-    puts "Pending review requests 📋 | size=18, href='https://github.com/pulls/review-requested'"
-    puts "---"
-  end
+  private
 
   def render_list_reviews
     build_pull_requests_list.each do |pr|
@@ -78,6 +50,38 @@ class UIBuilder
     puts "--index: #{panic_icon} #{panic_index.round(2)} | size=12 font=Monaco"
     puts "--last comment: #PLACEHOLDER FOR LAST COMMENT AGE"
     puts "---" 
+  end
+
+  def build_pull_requests_list
+    @nodes.map do |edge|
+      PullRequest.new(edge["node"]["repository"]["name"],
+                      edge["node"]["author"]["login"],
+                      edge["node"]["createdAt"],
+                      edge["node"]["number"],
+                      edge["node"]["url"],
+                      edge["node"]["title"],
+                      edge["node"]["reviewRequests"]["totalCount"],
+                      edge["node"]["reviews"]["totalCount"],
+                      edge["node"]["comments"]["totalCount"]
+                     )
+    end
+  end
+
+  def render_badge
+    badge = @nodes.size == 0 ? "📭" : "📬"
+    puts "#{badge} #{@nodes.size}"
+    puts "---"
+  end
+
+  def render_header
+    puts "Pending review requests 📋 | size=18, href='https://github.com/pulls/review-requested'"
+    puts "---"
+  end
+
+  def render_empty_state
+    puts "Hooray! Nothing to review 🎉 | size=22"
+    puts "🏴 PR's: #{@blacklisted_prs}| size=12 font=Monaco"
+    puts "---"
   end
 
   def panic_data_for(panic_index)

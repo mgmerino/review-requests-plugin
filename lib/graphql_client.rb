@@ -12,6 +12,6 @@ class GraphqlClient
       req.headers['Content-Type'] = 'application/json'
       req.body = {"query": query}.to_json
     end
-    JSON.parse(res.body)
+    res.body
   end
 end
