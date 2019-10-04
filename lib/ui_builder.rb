@@ -12,14 +12,14 @@ class UIBuilder
 
   def initialize(data, blacklisted_prs, stats = false)
       @blacklisted_prs = blacklisted_prs
-      @nodes = data["data"]["search"]["edges"].reject { |edge| @blacklisted_prs.include? edge["node"]["number"] }
+      @nodes = data["data"]["search"]["edges"].reject { |edge| blacklisted_prs.include? edge["node"]["number"] }
       @stats = stats
   end
 
   def do_render()
     render_badge
     render_header
-    if @nodes.nil?
+    if @nodes.empty?
       render_empty_state 
     else
       render_list_reviews
