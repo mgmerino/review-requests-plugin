@@ -10,13 +10,11 @@
 
 require "faraday"
 require "json"
-require "date"
 require "yaml"
 
 require_relative "lib/graphql_client"
 require_relative "lib/ui_builder"
-
-debug = false
+require_relative "lib/time_helper"
 
 config = YAML.load_file(File.join(__dir__, 'lib/config.yml'))
 github_handler = config["github_handler"]
@@ -28,4 +26,5 @@ ICONS = ["🥬", "🔆", "✴️", "🚩"]
 
 client = GraphqlClient.new(token: config["github_token"])
 data = client.do_query(graphql_query)
+
 UIBuilder.new(JSON.parse(data), blacklisted_prs, true).do_render

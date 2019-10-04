@@ -33,7 +33,7 @@ class UIBuilder
       panic_index = calculate_panic_index(pr)
       panic_color, panic_icon = panic_data_for(panic_index)
       title = "#{pr.repo_name} - #{pr.title} | size=16, href=#{pr.url}"
-      subtitle = "##{pr.number} opened by #{pr.author_login} #{relative_time(pr.created_at)}"
+      subtitle = "##{pr.number} opened by #{pr.author_login} #{TimeHelper.distance_of_time_in_words(Time.parse(pr.created_at))}"
       puts "#{title}"
       puts "#{subtitle} | #{panic_color}"
       if @stats
@@ -100,23 +100,6 @@ class UIBuilder
       icon = ICONS[3]
     end
     [color, icon]
-  end
-
-  def relative_time(from)
-    start_time = Date.parse(from).to_time
-    diff_seconds = Time.now - start_time
-    case diff_seconds
-      when 0 .. 59
-        "#{(diff_seconds)} seconds ago"
-      when 60 .. (3600-1)
-        "#{(diff_seconds/60).ceil} minutes ago"
-      when 3600 .. (3600*24-1)
-        "#{(diff_seconds/3600).ceil} hours ago"
-      when (3600*24) .. (3600*24*30) 
-        "#{(diff_seconds/(3600*24)).ceil} days ago"
-      else
-       "on "+start_time.strftime("%B %d, %Y")
-    end
   end
 
   def calculate_panic_index(pr)
