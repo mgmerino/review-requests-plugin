@@ -31,7 +31,7 @@ Save it under `lib` folder.
 Then make a symlink into your bitbar plugins folder (i.e: ~/bitbar-plugins).
 
 ```bash
-ln -s github-review-requests/review-requests.10m.rb ~/bitbar-plugins/
+ln -s review-requests-plugin/review-requests.10m.rb ~/bitbar-plugins/
 ```
 
 ## Contribute
