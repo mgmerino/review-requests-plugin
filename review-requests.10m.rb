@@ -6,11 +6,12 @@
 # <bitbar.version>v0.1</bitbar.version>
 # <bitbar.author>Manuel Gonzalez</bitbar.author>
 # <bitbar.author.github>mgmerino</bitbar.author.github>
-# <bitbar.dependencies>ruby</bitbar.dependencies>
+# <bitbar.dependencies>ruby faraday json yaml time</bitbar.dependencies>
 
 require "faraday"
 require "json"
 require "yaml"
+require "time"
 
 require_relative "lib/graphql_client"
 require_relative "lib/ui_builder"
