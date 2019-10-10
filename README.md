@@ -1,4 +1,4 @@
-# README
+# Review requests counter for bitbar
 
 This is a simple [bitbar](https://github.com/matryer/bitbar) plugin, inspired by [this one](https://github.com/matryer/bitbar-plugins/blob/master/Dev/GitHub/github-review-requests.5m.py) which is written in python.
 
@@ -31,7 +31,7 @@ Save it under `lib` folder.
 Then make a symlink into your bitbar plugins folder (i.e: ~/bitbar-plugins).
 
 ```bash
-ln -s github-review-requests/review-requests.10m.rb ~/bitbar-plugins/
+ln -s review-requests-plugin/review-requests.10m.rb ~/bitbar-plugins/
 ```
 
 ## Contribute
