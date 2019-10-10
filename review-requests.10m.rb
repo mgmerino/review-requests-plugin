@@ -28,4 +28,4 @@ ICONS = ["🥬", "🔆", "✴️", "🚩"]
 client = GraphqlClient.new(token: config["github_token"])
 data = client.do_query(graphql_query)
 
-UIBuilder.new(JSON.parse(data), blacklisted_prs, true).do_render
+UIBuilder.new(JSON.parse(data), blacklisted_prs, true).render_ui

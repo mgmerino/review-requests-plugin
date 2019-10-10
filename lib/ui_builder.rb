@@ -16,7 +16,7 @@ class UIBuilder
       @stats = stats
   end
 
-  def do_render()
+  def render_ui
     render_badge
     render_header
     if @nodes.empty?
@@ -52,21 +52,6 @@ class UIBuilder
     puts "---" 
   end
 
-  def build_pull_requests_list
-    @nodes.map do |edge|
-      PullRequest.new(edge["node"]["repository"]["name"],
-                      edge["node"]["author"]["login"],
-                      edge["node"]["createdAt"],
-                      edge["node"]["number"],
-                      edge["node"]["url"],
-                      edge["node"]["title"],
-                      edge["node"]["reviewRequests"]["totalCount"],
-                      edge["node"]["reviews"]["totalCount"],
-                      edge["node"]["comments"]["totalCount"]
-                     )
-    end
-  end
-
   def render_badge
     badge = @nodes.size == 0 ? "📭" : "📬"
     puts "#{badge} #{@nodes.size}"
@@ -82,6 +67,21 @@ class UIBuilder
     puts "Hooray! Nothing to review 🎉 | size=22"
     puts "🏴 PR's: #{@blacklisted_prs}| size=12 font=Monaco"
     puts "---"
+  end
+
+  def build_pull_requests_list
+    @nodes.map do |edge|
+      PullRequest.new(edge["node"]["repository"]["name"],
+                      edge["node"]["author"]["login"],
+                      edge["node"]["createdAt"],
+                      edge["node"]["number"],
+                      edge["node"]["url"],
+                      edge["node"]["title"],
+                      edge["node"]["reviewRequests"]["totalCount"],
+                      edge["node"]["reviews"]["totalCount"],
+                      edge["node"]["comments"]["totalCount"]
+                     )
+    end
   end
 
   def panic_data_for(panic_index)
