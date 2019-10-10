@@ -33,7 +33,7 @@ class UIBuilder
       panic_index = calculate_panic_index(pr)
       panic_color, panic_icon = panic_data_for(panic_index)
       title = "#{pr.repo_name} - #{pr.title} | size=16, href=#{pr.url}"
-      subtitle = "##{pr.number} opened by #{pr.author_login} #{TimeHelper.distance_of_time_in_words(Time.parse(pr.created_at))}"
+      subtitle = "##{pr.number} opened by #{pr.author_login} #{TimeHelper.distance_of_time_in_words(Time.parse(pr.created_at))} ago"
       puts "#{title}"
       puts "#{subtitle} | #{panic_color}"
       if @stats
